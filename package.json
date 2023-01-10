@@ -11,8 +11,10 @@
     "@headlessui/vue": "^1.7.7",
     "@heroicons/vue": "^2.0.13",
     "@tailwindcss/forms": "^0.5.3",
+    "axios": "^1.2.2",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
+    "vue-axios": "^3.5.2",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

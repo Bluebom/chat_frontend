@@ -17,11 +17,24 @@
     <h2
       class="mt-6 text-center text-3xl font-bold tracking-tight text-cht-secondary-contrast"
     >
-      Registre-se de graça
+      Criar Conta
     </h2>
   </div>
-  <form class="mt-8 space-y-6" action="#" method="POST">
+  <form class="mt-8 space-y-6" @submit.stop.prevent="register">
     <div class="-space-y-px rounded-md shadow-sm">
+      <div>
+        <label for="email-address" class="sr-only">Nome</label>
+        <input
+          id="email-address"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+          v-model="user.name"
+          class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          placeholder="Nome"
+        />
+      </div>
       <div>
         <label for="email-address" class="sr-only">E-mail</label>
         <input
@@ -30,7 +43,8 @@
           type="email"
           autocomplete="email"
           required
-          class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          v-model="user.email"
+          class="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           placeholder="E-mail"
         />
       </div>
@@ -42,18 +56,22 @@
           type="password"
           autocomplete="current-password"
           required
+          v-model="user.password"
           class="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           placeholder="Senha"
         />
       </div>
       <div>
-        <label for="confirmPassword" class="sr-only">Confirmar Senha</label>
+        <label for="password_confirmation" class="sr-only"
+          >Confirmar Senha</label
+        >
         <input
           placeholder="Confirmar Senha"
           type="password"
-          name="confirm-password"
-          id="confirmPassword"
+          name="password_confirmation"
+          id="password_confirmation"
           required
+          v-model="user.password_confirmation"
           class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
         />
       </div>
@@ -62,8 +80,8 @@
           <router-link
             class="font-medium text-cht-secondary-contrast text-indigo-600 hover:text-indigo-500"
             :to="{ name: 'Login' }"
-            >Faça login</router-link
-          >
+            >Faça login
+          </router-link>
         </div>
         <button
           type="button"
@@ -115,8 +133,28 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "ViewRegister",
+  data: () => {
+    return {
+      user: {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+      },
+    };
+  },
+  methods: {
+    ...mapActions("user", {
+      $_register: "register",
+    }),
+    register() {
+      this.$_register(this.user);
+    },
+  },
 };
 </script>
 
