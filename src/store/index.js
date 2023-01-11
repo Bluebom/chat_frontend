@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import router from "@/router";
-import axios from "axios";
+import utils from "@/assets/js/utils";
 
 export default createStore({
   modules: {
@@ -8,29 +8,37 @@ export default createStore({
       namespaced: true,
       state: () => ({
         data: {},
-        token: null,
+        token: sessionStorage.getItem("TOKEN"),
       }),
       getters: {},
       mutations: {
         LOGOUT(state) {
           state.data = {};
           state.token = null;
+          sessionStorage.removeItem("TOKEN");
           router.push("Login");
+        },
+        SETUSER(state, data) {
+          state.token = data.token;
+          state.data = data.user;
+          sessionStorage.setItem("TOKEN", state.token);
+          router.push("Dashboard");
         },
       },
       actions: {
-        register({ commit }, user) {
-          axios
-            .post("http://chat-backend/api/register", user, {
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-            })
-            .then((res) => console.log(res.data))
-            .catch(($evt) => alert($evt.message));
-          console.log(commit);
+        register: ({ commit }, user) => utils.auth("register", user, commit),
+        login: ({ commit }, user) => utils.auth("login", user, commit),
+      },
+    },
+    flash: {
+      state: () => [],
+      mutations: {
+        CLEARFLASH(state) {
+          state.flash = [];
         },
+      },
+      actions: {
+        login: ({ commit }) => commit("CLEARFLASH"),
       },
     },
   },

@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/views/ViewLogin.vue";
 import Dashboard from "@/views/ViewDashboard.vue";
 import Register from "@/views/ViewRegister.vue";
-import DefaultLayout from "@/components/DefaultLayout.vue";
+import DefaultLayout from "@/components/layouts/DefaultLayout.vue";
 import ViewChat from "@/views/ViewChat.vue";
 import store from "@/store";
-import AuthLayout from "@/components/AuthLayout.vue";
+import AuthLayout from "@/components/layouts/AuthLayout.vue";
 
 const routes = [
   {
